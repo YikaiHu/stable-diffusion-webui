@@ -1648,6 +1648,8 @@ def create_ui():
     extensions_interface = ui_extensions.create_ui()
     interfaces += [(extensions_interface, "Extensions", "extensions")]
 
+    interfaces = ui_feature_filter(interfaces)
+
     shared.tab_names = []
     for _interface, label, _ifid in interfaces:
         shared.tab_names.append(label)
@@ -1917,6 +1919,22 @@ def reload_javascript():
 
 if not hasattr(shared, 'GradioTemplateResponseOriginal'):
     shared.GradioTemplateResponseOriginal = gradio.routes.templates.TemplateResponse
+
+def ui_feature_filter(interfaces: list()) -> list():
+    """Filter the ui feature
+    This function will only leave the UI components according to the saas-ui-config.json
+    """
+    with open("./saas-ui-config.json", "r") as f:
+        saas_ui_config = json.load(f)
+    
+    ui_feature_config = saas_ui_config.get("features")
+    print("ui_feature_config: %s" % ui_feature_config)
+
+    filterred_interfaces = [
+        interface for interface in interfaces 
+        if ui_feature_config.get(interface[2])
+    ]
+    return filterred_interfaces
 
 
 def versions_html():

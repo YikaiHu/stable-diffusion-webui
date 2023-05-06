@@ -1,0 +1,11 @@
+{
+    "features": {
+        "txt2img": true,
+        "img2img": true,
+        "extras": true,
+        "pnginfo": true,
+        "modelmerger": false,
+        "settings": false,
+        "extensions": false
+    }
+}
